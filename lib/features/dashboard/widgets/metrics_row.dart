@@ -6,39 +6,35 @@ class DashboardMetricsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: const [
-          MetricCard(
+    return Row(
+      children: const [
+        Expanded(
+          child: MetricCard(
             title: 'Total Revenue',
             value: '\$48.9k',
             icon: Icons.attach_money,
             color: Colors.green,
           ),
-          SizedBox(width: 16),
-          MetricCard(
+        ),
+        SizedBox(width: 16),
+        Expanded(
+          child: MetricCard(
             title: 'Withdrawals',
             value: '21',
             icon: Icons.account_balance_wallet,
             color: Colors.orange,
           ),
-          SizedBox(width: 16),
-          MetricCard(
-            title: 'In Progress',
-            value: '24',
-            icon: Icons.sync,
-            color: Colors.blue,
-          ),
-          SizedBox(width: 16),
-          MetricCard(
+        ),
+        SizedBox(width: 16),
+        Expanded(
+          child: MetricCard(
             title: 'Total Users',
             value: '1,254',
             icon: Icons.people,
             color: Colors.purple,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -60,7 +56,6 @@ class MetricCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 180,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppTheme.cardColor,
@@ -69,19 +64,33 @@ class MetricCard extends StatelessWidget {
       child: Row(
         children: [
           CircleAvatar(
+            radius: 20,
             backgroundColor: color.withOpacity(0.2),
-            child: Icon(icon, color: color),
+            child: Icon(icon, color: color, size: 20),
           ),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(value,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  value,
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold)),
-              Text(title,
-                  style: const TextStyle(fontSize: 12, color: Colors.white60)),
-            ],
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.white60,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

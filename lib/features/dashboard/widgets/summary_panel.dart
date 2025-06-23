@@ -7,7 +7,7 @@ class SummaryPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: AppTheme.cardColor,
         borderRadius: BorderRadius.circular(16),
@@ -15,27 +15,66 @@ class SummaryPanel extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header Row
           Row(
-            children: const [
-              Text("Today's Summary", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              Spacer(),
-              Chip(
-                label: Text('Get Report', style: TextStyle(color: Colors.white)),
-                backgroundColor: AppTheme.accentPurple,
+            children: [
+              const Text(
+                "Today's Summary",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const Spacer(),
+              Container(
+                padding:
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: AppTheme.accentPurple,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(Icons.auto_graph, color: Colors.white, size: 16),
+                    SizedBox(width: 4),
+                    Text(
+                      'Get Report',
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    )
+                  ],
+                ),
               )
             ],
           ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 12,
-            runSpacing: 12,
-            children: const [
-              SummaryCard(title: "Today's Users", value: "17"),
-              SummaryCard(title: "Today's Withdrawals", value: "8"),
-              SummaryCard(title: "Withdrawal Amount", value: "\$940", highlight: true),
-              SummaryCard(title: "Verification Requests", value: "5"),
+          const SizedBox(height: 14),
+
+          // Summary grid
+          GridView.count(
+            crossAxisCount: 2,
+            shrinkWrap: true,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              const SummaryCard(
+                title: "Today's Users",
+                value: "17",
+                valueColor: AppTheme.accentPurple,
+              ),
+              SummaryCard(
+                title: "Today's Withdrawals",
+                value: "8",
+                valueColor: AppTheme.accentYellow,
+              ),
+              const SummaryCard(
+                title: "Withdrawal Amount",
+                value: "\$940",
+                valueColor: AppTheme.accentYellow,
+              ),
+              const SummaryCard(
+                title: "Verification Requests",
+                value: "5",
+                valueColor: AppTheme.accentBlue,
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -45,20 +84,19 @@ class SummaryPanel extends StatelessWidget {
 class SummaryCard extends StatelessWidget {
   final String title;
   final String value;
-  final bool highlight;
+  final Color valueColor;
 
   const SummaryCard({
     super.key,
     required this.title,
     required this.value,
-    this.highlight = false,
+    required this.valueColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 130,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         color: AppTheme.backgroundColor,
         borderRadius: BorderRadius.circular(12),
@@ -66,13 +104,19 @@ class SummaryCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(value,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: highlight ? AppTheme.accentYellow : Colors.white)),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: valueColor,
+            ),
+          ),
           const SizedBox(height: 4),
-          Text(title, style: const TextStyle(fontSize: 12, color: Colors.white60)),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 12, color: Colors.white60),
+          ),
         ],
       ),
     );

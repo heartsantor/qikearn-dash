@@ -44,17 +44,24 @@ class _DashboardContentState extends State<DashboardContent> {
               // Left side content
               SizedBox(
                 width: screenWidth - 350,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('04:22 AM',
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                      const Text('Tuesday, June 24'),
-                      const SizedBox(height: 20),
-                      const DashboardMetricsRow(),
-                      const SizedBox(height: 20),
-                      Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Sticky top: time + date
+                    const Text(
+                      '04:22 AM',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    const Text('Tuesday, June 24'),
+                    const SizedBox(height: 20),
+
+                    // Sticky metrics row
+                    const DashboardMetricsRow(),
+                    const SizedBox(height: 20),
+
+                    // Scrollable user list & tab section
+                    Expanded(
+                      child: Container(
                         decoration: BoxDecoration(
                           color: AppTheme.cardColor,
                           borderRadius: BorderRadius.circular(12),
@@ -63,6 +70,7 @@ class _DashboardContentState extends State<DashboardContent> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            // Tabs
                             Row(
                               children: List.generate(tabs.length, (index) {
                                 final isSelected = index == tabIndex;
@@ -71,27 +79,37 @@ class _DashboardContentState extends State<DashboardContent> {
                                   child: ChoiceChip(
                                     label: Text(tabs[index]),
                                     selected: isSelected,
-                                    onSelected: (_) =>
-                                        setState(() => tabIndex = index),
+                                    onSelected: (_) => setState(() => tabIndex = index),
                                   ),
                                 );
                               }),
                             ),
                             const SizedBox(height: 16),
-                            if (tabIndex == 0) const UserTab(),
-                            if (tabIndex == 1)
-                              const Text('Withdrawals Tab (Placeholder)',
-                                  style: TextStyle(color: Colors.white)),
-                            if (tabIndex == 2)
-                              const Text('Verifications Tab (Placeholder)',
-                                  style: TextStyle(color: Colors.white)),
+
+                            // Scrollable content
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    if (tabIndex == 0) const UserTab(),
+                                    if (tabIndex == 1)
+                                      const Text('Withdrawals Tab (Placeholder)',
+                                          style: TextStyle(color: Colors.white)),
+                                    if (tabIndex == 2)
+                                      const Text('Verifications Tab (Placeholder)',
+                                          style: TextStyle(color: Colors.white)),
+                                  ],
+                                ),
+                              ),
+                            )
                           ],
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
               ),
+
 
               const SizedBox(width: 16),
               const SizedBox(
