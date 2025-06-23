@@ -30,24 +30,21 @@ class _DashboardContentState extends State<DashboardContent> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final screenWidth = constraints.maxWidth;
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(minWidth: screenWidth),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Left side content
-              SizedBox(
-                width: screenWidth - 350,
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Left content panel
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Sticky top: time + date
+                    // Sticky Top
                     const Text(
                       '04:22 AM',
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -55,11 +52,11 @@ class _DashboardContentState extends State<DashboardContent> {
                     const Text('Tuesday, June 24'),
                     const SizedBox(height: 20),
 
-                    // Sticky metrics row
+                    // Metrics Row
                     const DashboardMetricsRow(),
                     const SizedBox(height: 20),
 
-                    // Scrollable user list & tab section
+                    // Main Content Area
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
@@ -86,7 +83,7 @@ class _DashboardContentState extends State<DashboardContent> {
                             ),
                             const SizedBox(height: 16),
 
-                            // Scrollable content
+                            // Scrollable User List
                             Expanded(
                               child: SingleChildScrollView(
                                 child: Column(
@@ -101,7 +98,7 @@ class _DashboardContentState extends State<DashboardContent> {
                                   ],
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -109,17 +106,20 @@ class _DashboardContentState extends State<DashboardContent> {
                   ],
                 ),
               ),
+            ),
 
-
-              const SizedBox(width: 16),
-              const SizedBox(
-                width: 300,
+            // Right summary panel
+            const SizedBox(
+              width: 320,
+              child: Padding(
+                padding: EdgeInsets.only(top: 16, right: 16),
                 child: SummaryPanel(),
-              )
-            ],
-          ),
-        ),
-      ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
+
 }
