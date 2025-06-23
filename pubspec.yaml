@@ -38,8 +38,6 @@ dependencies:
 
 dev_dependencies:
   dio: ^5.0.0
-  flutter_bloc: ^8.1.0
-  cubit: ^1.0.0
   flutter_test:
     sdk: flutter
 
