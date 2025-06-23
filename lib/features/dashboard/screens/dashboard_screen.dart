@@ -26,7 +26,7 @@ class DashboardContent extends StatefulWidget {
 
 class _DashboardContentState extends State<DashboardContent> {
   int tabIndex = 0;
-  final tabs = ['Users', 'Withdrawals', 'Verifications'];
+  final tabs = ['Users', 'Withdrawals'];
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class _DashboardContentState extends State<DashboardContent> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Sticky Top
+                    // Top header
                     const Text(
                       '04:22 AM',
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -56,7 +56,7 @@ class _DashboardContentState extends State<DashboardContent> {
                     const DashboardMetricsRow(),
                     const SizedBox(height: 20),
 
-                    // Main Content Area
+                    // Main Content Container
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
@@ -67,23 +67,27 @@ class _DashboardContentState extends State<DashboardContent> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Tabs
-                            Row(
-                              children: List.generate(tabs.length, (index) {
-                                final isSelected = index == tabIndex;
-                                return Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: ChoiceChip(
-                                    label: Text(tabs[index]),
-                                    selected: isSelected,
-                                    onSelected: (_) => setState(() => tabIndex = index),
-                                  ),
-                                );
-                              }),
+                            // Scrollable Tabs
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: List.generate(tabs.length, (index) {
+                                  final isSelected = index == tabIndex;
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: ChoiceChip(
+                                      label: Text(tabs[index]),
+                                      selected: isSelected,
+                                      onSelected: (_) =>
+                                          setState(() => tabIndex = index),
+                                    ),
+                                  );
+                                }),
+                              ),
                             ),
                             const SizedBox(height: 16),
 
-                            // Scrollable User List
+                            // Scrollable content
                             Expanded(
                               child: SingleChildScrollView(
                                 child: Column(
@@ -121,5 +125,4 @@ class _DashboardContentState extends State<DashboardContent> {
       },
     );
   }
-
 }
