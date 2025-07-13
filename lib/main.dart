@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'core/theme/app_theme.dart';
 import 'features/dashboard/screens/dashboard_screen.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +15,7 @@ void main() async {
 
   // Optional: hide system overlays (fullscreen experience)
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-
+  await WakelockPlus.enable();
   runApp(const MyApp());
 }
 
