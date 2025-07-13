@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import '../../../core/theme/app_theme.dart';
 import '../widgets/user_tab.dart';
@@ -39,6 +40,12 @@ class _DashboardContentState extends State<DashboardContent> {
       builder: (context, constraints) {
         final screenWidth = constraints.maxWidth;
 
+        final now = DateTime.now();
+        final timeString = DateFormat('hh:mm a').format(now); // 04:22 AM
+        final dateString = DateFormat(
+          'EEEE, MMMM d',
+        ).format(now); // Tuesday, June 24
+
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -50,14 +57,54 @@ class _DashboardContentState extends State<DashboardContent> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Top header
-                    const Text(
-                      '04:22 AM',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Left: Time and Date
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              timeString,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(dateString),
+                          ],
+                        ),
+
+                        // Right: Icon buttons
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.notifications),
+                              tooltip: 'Notifications',
+                              onPressed: () {
+                                // handle notification
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.settings),
+                              tooltip: 'Settings',
+                              onPressed: () {
+                                // handle settings
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.account_circle),
+                              tooltip: 'Profile',
+                              onPressed: () {
+                                // handle profile
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    const Text('Tuesday, June 24'),
+
                     const SizedBox(height: 10),
 
                     // Metrics Row
@@ -66,12 +113,13 @@ class _DashboardContentState extends State<DashboardContent> {
 
                     // Main Content Container
                     Expanded(
+
                       child: Container(
                         decoration: BoxDecoration(
                           color: AppTheme.cardColor,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        padding: const EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -93,7 +141,7 @@ class _DashboardContentState extends State<DashboardContent> {
                                 }),
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: 10),
 
                             // Scrollable content
                             Expanded(
