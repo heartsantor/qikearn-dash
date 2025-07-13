@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import '../../../core/theme/app_theme.dart';
 import '../widgets/user_tab.dart';
 import '../widgets/summary_panel.dart';
@@ -9,24 +10,30 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
-        child: DashboardContent(),
-      ),
-    );
+    return const Scaffold(body: SafeArea(child: DashboardContent()));
   }
 }
 
 class DashboardContent extends StatefulWidget {
   const DashboardContent({super.key});
 
+
   @override
   State<DashboardContent> createState() => _DashboardContentState();
 }
 
+
 class _DashboardContentState extends State<DashboardContent> {
   int tabIndex = 0;
   final tabs = ['Users', 'Withdrawals'];
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Ensure wakelock is always re-enabled here too
+    WakelockPlus.enable();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +54,10 @@ class _DashboardContentState extends State<DashboardContent> {
                     // Top header
                     const Text(
                       '04:22 AM',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const Text('Tuesday, June 24'),
                     const SizedBox(height: 20),
@@ -94,11 +104,15 @@ class _DashboardContentState extends State<DashboardContent> {
                                   children: [
                                     if (tabIndex == 0) const UserTab(),
                                     if (tabIndex == 1)
-                                      const Text('Withdrawals Tab (Placeholder)',
-                                          style: TextStyle(color: Colors.white)),
+                                      const Text(
+                                        'Withdrawals Tab (Placeholder)',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                     if (tabIndex == 2)
-                                      const Text('Verifications Tab (Placeholder)',
-                                          style: TextStyle(color: Colors.white)),
+                                      const Text(
+                                        'Verifications Tab (Placeholder)',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                   ],
                                 ),
                               ),
@@ -106,7 +120,7 @@ class _DashboardContentState extends State<DashboardContent> {
                           ],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
