@@ -17,11 +17,9 @@ class DashboardScreen extends StatelessWidget {
 class DashboardContent extends StatefulWidget {
   const DashboardContent({super.key});
 
-
   @override
   State<DashboardContent> createState() => _DashboardContentState();
 }
-
 
 class _DashboardContentState extends State<DashboardContent> {
   int tabIndex = 0;
@@ -47,7 +45,7 @@ class _DashboardContentState extends State<DashboardContent> {
             // Left content panel
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -60,11 +58,11 @@ class _DashboardContentState extends State<DashboardContent> {
                       ),
                     ),
                     const Text('Tuesday, June 24'),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
 
                     // Metrics Row
                     const DashboardMetricsRow(),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
 
                     // Main Content Container
                     Expanded(
@@ -127,10 +125,10 @@ class _DashboardContentState extends State<DashboardContent> {
             ),
 
             // Right summary panel
-            const SizedBox(
-              width: 320,
+            SizedBox(
+              width: screenWidth * 0.3,
               child: Padding(
-                padding: EdgeInsets.only(top: 16, right: 16),
+                padding: EdgeInsets.only(top: 10, right: 10),
                 child: SummaryPanel(),
               ),
             ),

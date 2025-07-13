@@ -8,42 +8,50 @@ class SummaryPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: AppTheme.cardColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(10),
       ),
-      child: SingleChildScrollView( // ✅ scrollable wrapper
+      child: SingleChildScrollView(
+        // ✅ scrollable wrapper
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header Row
             Row(
               children: [
-                const Text(
-                  "Today's Summary",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                const Expanded(
+                  // 👈 Wrap the text in Expanded
+                  child: Text(
+                    "Today's",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ),
-                const Spacer(),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: AppTheme.accentPurple,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+
                     children: [
-                      Icon(Icons.auto_graph, color: Colors.white, size: 16),
                       SizedBox(width: 4),
                       Text(
                         'Get Report',
                         style: TextStyle(color: Colors.white, fontSize: 12),
-                      )
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
+
             const SizedBox(height: 14),
 
             // Summary grid
