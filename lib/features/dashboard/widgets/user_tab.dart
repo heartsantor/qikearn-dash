@@ -31,15 +31,15 @@ class UserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
       decoration: BoxDecoration(
-        color: AppTheme.cardColor,
-        borderRadius: BorderRadius.circular(12),
+        color: AppTheme.accentBlue.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         children: [
           CircleAvatar(
-            radius: 20,
+            radius: 16,
             backgroundColor: Colors.blue,
             child: Text(initials, style: const TextStyle(color: Colors.white)),
           ),
@@ -47,12 +47,28 @@ class UserCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              Text('Joined: $joinedDate', style: const TextStyle(fontSize: 12, color: Colors.white70)),
+              Text(
+                name,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Joined: $joinedDate',
+                style: const TextStyle(fontSize: 10, color: Colors.white70),
+              ),
             ],
           ),
           const Spacer(),
-          const Text('Active', style: TextStyle(color: AppTheme.accentGreen, fontWeight: FontWeight.bold)),
+          const Text(
+            'Active',
+            style: TextStyle(
+              fontSize: 12,
+              color: AppTheme.accentGreen,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );

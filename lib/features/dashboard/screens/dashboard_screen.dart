@@ -113,13 +113,15 @@ class _DashboardContentState extends State<DashboardContent> {
 
                     // Main Content Container
                     Expanded(
-
                       child: Container(
                         decoration: BoxDecoration(
                           color: AppTheme.cardColor,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -132,7 +134,13 @@ class _DashboardContentState extends State<DashboardContent> {
                                   return Padding(
                                     padding: const EdgeInsets.only(right: 8.0),
                                     child: ChoiceChip(
-                                      label: Text(tabs[index]),
+                                      label: Text(
+                                        tabs[index],
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
                                       selected: isSelected,
                                       onSelected: (_) =>
                                           setState(() => tabIndex = index),
