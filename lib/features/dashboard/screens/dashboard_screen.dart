@@ -57,6 +57,7 @@ class _DashboardContentState extends State<DashboardContent> {
 
     SocketService().connect(
       onConnected: () {
+        print("✅ Socket connected");
         setState(() {
           isSocketConnected = true;
           isConnecting = false;
@@ -93,7 +94,9 @@ class _DashboardContentState extends State<DashboardContent> {
           });
         },
         "today_withdraw_list": (data) {
-          print("💸 Today Withdraws: $data");
+          print(
+            "🔥 today_withdraw_list received: $data",
+          ); // <--- confirm this prints
           setState(() {
             todayWithdrawals = data.length;
             todayWithdrawalsList = List<Map<String, dynamic>>.from(data);
