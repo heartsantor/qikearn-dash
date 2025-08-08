@@ -29,6 +29,8 @@ class _UserTabState extends State<UserTab> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min, // prevent infinite height
       children: [
         TabBar(
           controller: _tabController,
@@ -45,7 +47,7 @@ class _UserTabState extends State<UserTab> with TickerProviderStateMixin {
         ),
         const SizedBox(height: 12),
         SizedBox(
-          height: 300, // or use `Expanded` if needed
+          height: MediaQuery.of(context).size.height * 0.45, // or 0.5, 0.6 etc
           child: TabBarView(
             controller: _tabController,
             children: [
@@ -69,6 +71,10 @@ class _UserTabState extends State<UserTab> with TickerProviderStateMixin {
     }
 
     return ListView.separated(
+      physics: const AlwaysScrollableScrollPhysics(),
+      // ensure full scroll
+      padding: const EdgeInsets.only(bottom: 40, top: 8),
+      // enough bottom space
       itemCount: users.length,
       separatorBuilder: (_, __) => const SizedBox(height: 10),
       itemBuilder: (context, index) {

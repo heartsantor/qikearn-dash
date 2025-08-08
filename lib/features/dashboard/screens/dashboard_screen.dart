@@ -6,6 +6,7 @@ import '../../../core/services/socket_service.dart';
 import '../widgets/user_tab.dart';
 import '../widgets/summary_panel.dart';
 import '../widgets/metrics_row.dart';
+import '../widgets/withdraw_tab.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -40,6 +41,9 @@ class _DashboardContentState extends State<DashboardContent> {
 
   List<Map<String, dynamic>> allUsers = [];
   List<Map<String, dynamic>> todayUsersList = [];
+
+  List<Map<String, dynamic>> allWithdrawals = [];
+  List<Map<String, dynamic>> todayWithdrawalsList = [];
 
   @override
   void initState() {
@@ -77,9 +81,8 @@ class _DashboardContentState extends State<DashboardContent> {
         "today_task_and_earning_stats": (data) {
           print("📊 Stats: $data");
           setState(() {
-            totalEarnings = data['total_earning_today'] ?? "\$0.00";
-            todayWithdrawalAmount =
-                data['total_earning_today'] ?? "\$0.00"; // same value if used
+            totalEarnings = data['total_earning_today'] ?? "৳0.00";
+            todayWithdrawalAmount = data['total_earning_today'] ?? "৳0.00";
           });
         },
         "today_joining_kamla_event": (data) {
@@ -93,10 +96,10 @@ class _DashboardContentState extends State<DashboardContent> {
           print("💸 Today Withdraws: $data");
           setState(() {
             todayWithdrawals = data.length;
+            todayWithdrawalsList = List<Map<String, dynamic>>.from(data);
           });
         },
         "irregular_activities_today_event": (data) {
-          // 🛂 Use this for verifications (if you have another event for this, use that)
           print("🔎 Today's Verifications: $data");
           setState(() {
             todayVerificationRequests = data.length;
@@ -109,7 +112,10 @@ class _DashboardContentState extends State<DashboardContent> {
           });
         },
         "all_withdraw_list": (data) {
-          setState(() => withdrawals = data.length);
+          setState(() {
+            withdrawals = data.length;
+            allWithdrawals = List<Map<String, dynamic>>.from(data);
+          });
         },
       },
     );
@@ -298,11 +304,10 @@ class _DashboardContentState extends State<DashboardContent> {
                                       child: Column(
                                         children: [
                                           if (tabIndex == 0)
-                                            const Text(
-                                              'Withdrawals Tab (Placeholder)',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
+                                            WithdrawTab(
+                                              allWithdrawals: allWithdrawals,
+                                              todayWithdrawals:
+                                                  todayWithdrawalsList,
                                             ),
                                           if (tabIndex == 1)
                                             UserTab(
