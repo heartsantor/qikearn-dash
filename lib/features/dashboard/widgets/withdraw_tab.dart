@@ -79,7 +79,7 @@ class _WithdrawTabState extends State<WithdrawTab>
       itemBuilder: (context, index) {
         final item = list[index];
         final amount = item['amount']?.toString() ?? '0';
-        final name = item['user_name'] ?? 'Unknown';
+        final name = item['method'] ?? 'Unknown';
         final date = item['created_at']?.toString().split('T').first ?? '';
 
         return Container(
