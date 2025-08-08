@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
+import 'core/services/socket_service.dart';
 import 'core/theme/app_theme.dart';
 import 'features/dashboard/screens/dashboard_screen.dart';
-import 'package:wakelock_plus/wakelock_plus.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,9 +18,21 @@ void main() async {
   // 👇 This should keep the screen awake
   await WakelockPlus.enable();
 
+  // 👇 Initialize socket connection before app starts
+  SocketService().connect(
+    onConnected: () => print('✅ Socket connected'),
+    onDisconnected: (msg) => print('❌ $msg'),
+    onError: (err) => print('🚫 $err'),
+    eventListeners: {
+      'today_joining_kamla_event': (data) => print('👥 Today Kamla: $data'),
+      'today_withdraw_list': (data) => print('💸 Withdraws: $data'),
+      'today_task_and_earning_stats': (data) => print('📊 Stats: $data'),
+      // add more as needed
+    },
+  );
+
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

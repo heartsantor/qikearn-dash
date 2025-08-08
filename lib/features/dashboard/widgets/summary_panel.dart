@@ -3,7 +3,18 @@ import '../../../core/theme/app_theme.dart';
 import 'summary_card.dart'; // <-- Import the separated card
 
 class SummaryPanel extends StatelessWidget {
-  const SummaryPanel({super.key});
+  final int todayUsers;
+  final int todayWithdrawals;
+  final String todayWithdrawalAmount;
+  final int todayVerificationRequests;
+
+  const SummaryPanel({
+    super.key,
+    required this.todayUsers,
+    required this.todayWithdrawals,
+    required this.todayWithdrawalAmount,
+    required this.todayVerificationRequests,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,15 +25,13 @@ class SummaryPanel extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: SingleChildScrollView(
-        // ✅ scrollable wrapper
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header Row
+            // Header
             Row(
               children: [
                 const Expanded(
-                  // 👈 Wrap the text in Expanded
                   child: Text(
                     "Today's",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -37,49 +46,41 @@ class SummaryPanel extends StatelessWidget {
                     color: AppTheme.accentPurple,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-
-                    children: [
-                      SizedBox(width: 4),
-                      Text(
-                        'Get Report',
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ],
+                  child: const Text(
+                    'Get Report',
+                    style: TextStyle(color: Colors.white, fontSize: 12),
                   ),
                 ),
               ],
             ),
-
             const SizedBox(height: 14),
 
-            // Summary grid
+            // Grid of cards
             GridView.count(
               crossAxisCount: 2,
               shrinkWrap: true,
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
               physics: const NeverScrollableScrollPhysics(),
-              children: const [
+              children: [
                 SummaryCard(
                   title: "Today's Users",
-                  value: "17",
+                  value: "$todayUsers",
                   valueColor: AppTheme.accentPurple,
                 ),
                 SummaryCard(
                   title: "Today's Withdrawals",
-                  value: "8",
+                  value: "$todayWithdrawals",
                   valueColor: AppTheme.accentYellow,
                 ),
                 SummaryCard(
                   title: "Withdrawal Amount",
-                  value: "\$940",
+                  value: todayWithdrawalAmount,
                   valueColor: AppTheme.accentYellow,
                 ),
                 SummaryCard(
                   title: "Verification Requests",
-                  value: "5",
+                  value: "$todayVerificationRequests",
                   valueColor: AppTheme.accentBlue,
                 ),
               ],

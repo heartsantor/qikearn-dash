@@ -1,18 +1,94 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
 
-class UserTab extends StatelessWidget {
-  const UserTab({super.key});
+class UserTab extends StatefulWidget {
+  final List<Map<String, dynamic>> allUsers;
+  final List<Map<String, dynamic>> todayUsers;
+
+  const UserTab({super.key, required this.allUsers, required this.todayUsers});
+
+  @override
+  State<UserTab> createState() => _UserTabState();
+}
+
+class _UserTabState extends State<UserTab> with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
-        UserCard(name: 'John Doe', joinedDate: '2024-05-10', initials: 'JD'),
-        SizedBox(height: 12),
-        UserCard(name: 'Alice W.', joinedDate: '2024-03-22', initials: 'AW'),
+      children: [
+        TabBar(
+          controller: _tabController,
+          indicatorColor: AppTheme.accentBlue,
+          labelColor: Colors.white,
+          labelStyle: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+          tabs: const [
+            Tab(text: "Today's Users"),
+            Tab(text: "All Users"),
+          ],
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 300, // or use `Expanded` if needed
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildUserList(widget.todayUsers),
+              _buildUserList(widget.allUsers),
+            ],
+          ),
+        ),
       ],
     );
+  }
+
+  Widget _buildUserList(List<Map<String, dynamic>> users) {
+    if (users.isEmpty) {
+      return const Center(
+        child: Text(
+          'No users found.',
+          style: TextStyle(color: Colors.white70, fontSize: 12),
+        ),
+      );
+    }
+
+    return ListView.separated(
+      itemCount: users.length,
+      separatorBuilder: (_, __) => const SizedBox(height: 10),
+      itemBuilder: (context, index) {
+        final user = users[index];
+        final name = "${user['first_name']} ${user['last_name']}";
+        final joinedDate = (user['created_at'] ?? '')
+            .toString()
+            .split('T')
+            .first;
+        final initials = _getInitials(user['first_name'], user['last_name']);
+
+        return UserCard(name: name, joinedDate: joinedDate, initials: initials);
+      },
+    );
+  }
+
+  String _getInitials(String? first, String? last) {
+    final f = first?.isNotEmpty == true ? first![0] : '';
+    final l = last?.isNotEmpty == true ? last![0] : '';
+    return (f + l).toUpperCase();
   }
 }
 
@@ -40,8 +116,11 @@ class UserCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 16,
-            backgroundColor: Colors.blue,
-            child: Text(initials, style: const TextStyle(color: Colors.white)),
+            backgroundColor: AppTheme.accentBlue,
+            child: Text(
+              initials,
+              style: const TextStyle(color: Colors.white, fontSize: 12),
+            ),
           ),
           const SizedBox(width: 12),
           Column(
